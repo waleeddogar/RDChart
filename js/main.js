@@ -8,12 +8,14 @@ function showChart(){
 
   var OEMrates = [];
 	console.log("1");
-	// var OEMrates = getIncentives($("#trim").val(), 'M1G3V4');
-	var OEMrates = getIncentives("369453", 'M1G3V4');
+	 var OEMrates = getIncentives($("#trim").val(), 'M1G3V4');
+	//var OEMrates = getIncentives("369453", 'M1G3V4');
 	console.log("3");
 	console.log("OEM RATE LENGTH" +OEMrates.length);
-	drawChart(primePrice-1750);
-	drawOEMchart(primePrice-500, OEMrates);
+	//drawChart(primePrice-1750);
+	drawChart(primePrice);
+	//drawOEMchart(primePrice-500, OEMrates);
+	drawOEMchart(primePrice, OEMrates);
 	//drawCommissionChart(primePrice);
 }
 
@@ -79,7 +81,6 @@ function drawChart(primePrice) {
 
 	for (var i = selectedInterestSet.length - 1; i >= 0; i--) {
 		interestRates.push(selectedInterestSet[i][0].toString() + "%");
-
 	}
 //	console.log(interestRates.toString());
 	for (var i = 0; i < terms.length; i++) {
@@ -246,8 +247,8 @@ function calculateOEMrates(primePrice, oemRates) {
 		monthlyOEMrate.push(i);
 		monthlyOEMrate.push(0);
 		monthlyOEMrate.push(Math.round(calcOemMonthlyRate(primePrice, oemRates[i].interest, oemRates[i].to)));
-		console.log("OEM RATE: " + oemRates[i].interest + " TOTAL COST: " + monthlyOEMrate[2]);
-		console.log("Prog Desc: " + oemRates[i].programDesc);
+		//console.log("OEM RATE: " + oemRates[i].interest + " TOTAL COST: " + monthlyOEMrate[2]);
+		//console.log("Prog Desc: " + oemRates[i].programDesc);
 		monthlyOEMrates.push(monthlyOEMrate);
 		monthlyOEMrate = [];
 	}
@@ -315,9 +316,9 @@ function drawOEMchart(primePrice, oemRates) {
 						var programDesc = " ";
 						var rate = "";
 						for(i=0;i<rates.length;i++){
-							console.log("WHATS WRONG HERE "+rates[i].programDesc);
+						//	console.log("WHATS WRONG HERE "+rates[i].programDesc);
 								if(rates[i].to == this.series.xAxis.categories[this.point.x]){
-									console.log("THERE THERE: "+rates[i].programDesc);
+								//	console.log("THERE THERE: "+rates[i].programDesc);
 									programDesc = rates[i].programDesc;
 									rate = rates[i].interest;
 								}

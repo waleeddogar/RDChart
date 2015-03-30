@@ -8,6 +8,7 @@ function Incentive (interest,to,from,disclosure,programDesc) {
 
 function getIncentives(styleId, postalCode){
   var incentivesData = [];
+	var finalIncentiveData = [];
   var data = [];
 	jQuery.ajax({
 			type: "POST",
@@ -15,7 +16,7 @@ function getIncentives(styleId, postalCode){
 			url: "php/getIncentives.php",
 			data: {'styleId': styleId, 'postalCode': postalCode},
 			success: function(response){
-			// console.log(response);
+			 console.log(response);
 				var data = JSON.parse(response);
 
 
@@ -30,11 +31,14 @@ function getIncentives(styleId, postalCode){
 										incentive.interest =data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].value;
 										incentive.to = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].to;
 										incentive.from = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].from;
-										incentive.financialDisclosure = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].financialDisclosure;incentive.programDesc = data.incentives[i].programDescription;
+										incentive.financialDisclosure = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].financialDisclosure;
+										incentive.programDesc = data.incentives[i].programDescription;
 										incentivesData.push(incentive);
 								}
 							}
 						}
+						finalIncentiveData.push(incentiveData);
+						incentiveData = [];
 					}
 				}
 			},
@@ -42,7 +46,7 @@ function getIncentives(styleId, postalCode){
 				console.log(response);
 			}
 		});
-		return incentivesData;
+		return finalIncentiveData;
 }
 
 function getMakes(value){

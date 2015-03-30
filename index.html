@@ -20,10 +20,11 @@
         				console.log(response);
         				var years = JSON.parse(response);
         				for(i=0; i< (years.modelYear).length ; i++){
-
+                      if(years.modelYear[i] > 2013){
         							var option = $('<option />');
         							option.attr('value',years.modelYear[i] ).text(years.modelYear[i]);
         							$('#year').append(option);
+                    }
         				}
         			}
         		});
@@ -82,6 +83,7 @@
 			  <script src="js/heatmap.js"></script>
 			  <script src="js/exporting.js"></script>
     		<script src="js/main.js"></script>
+        <script src="js/chromeDataCalls.js"></script>
     		<script src="js/ratesVariables.js"></script>
     	</body>
 

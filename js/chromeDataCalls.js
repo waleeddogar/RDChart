@@ -70,6 +70,7 @@ function getMakes(value){
 		});
 }
 
+
 function getModels(makeId){
 	$("#model").empty();
 	$('#model').append($('<option />').attr('value',"").text("Select model"));
@@ -81,7 +82,7 @@ function getModels(makeId){
 				console.log(response);
 				var data = JSON.parse(response);
 				//console.log(data.model._);
-				if (data instanceof Array) {
+				if (data.model instanceof Array) {
 					for(i=0;i<data.model.length;i++){
 									var option = $('<option />');
 									option.attr('value',data.model[i].id ).text(data.model[i]._);
@@ -111,7 +112,7 @@ function getTrims(modelId){
       console.log(response);
       var data = JSON.parse(response);
       //console.log(data.model._);
-			if (data instanceof Array) {
+			if (data.style instanceof Array) {
 				for(i=0;i<data.style.length;i++){
 	        var option = $('<option />');
 	        option.attr('value',data.style[i].id ).text(data.style[i]._);

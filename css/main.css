@@ -1,0 +1,57 @@
+.body{
+	margin-left:5px;
+	margin-right:5px;
+	width: 70%
+}
+.amount{
+	font-size:60px;
+	text-align: center;
+}
+#largebutton{
+	width: 50%;
+}
+#rates{
+	width:75%;
+	float:left;
+	vertical-align: 'middle'
+}
+#commission{
+	float:left;
+	width:25%;
+}
+#rates1{
+	width:75%;
+	float:left;
+	vertical-align: 'middle'
+}
+#commission1{
+	float:left;
+	width:25%;
+}
+#center{
+	text-align:center;
+}
+.center{
+	text-align:center;
+}
+#title{
+	text-align:center;
+}
+.leftside{
+	width:75%;
+	float:left;
+	vertical-align: 'middle'
+}
+.rightside{
+	float:left;
+	width:25%;
+}
+#halfscreen{
+	width:40%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+#disappear{
+	width:auto;
+}

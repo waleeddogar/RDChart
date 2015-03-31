@@ -6,18 +6,17 @@ function showChart(){
 	document.getElementById("disappear").style.display = 'none';
 	document.getElementById("disappear2").style.display = 'none';
 
-  var OEMrates = [];
-	console.log("1");
-	 var OEMrates = getIncentives($("#trim").val(), 'M1G3V4');
+  // var OEMrates = [];
+	 var incentiveData = getIncentives($("#trim").val(), 'M1G3V4');
 	//var OEMrates = getIncentives("369453", 'M1G3V4');
-	console.log("3");
-	console.log("OEM RATE LENGTH" +OEMrates.length);
+	console.log("OEM RATE LENGTH" +incentiveData.length);
 	//drawChart(primePrice-1750);
-	drawChart(primePrice);
+//	drawChart(primePrice);
 	//drawOEMchart(primePrice-500, OEMrates);
-	drawOEMchart(primePrice, OEMrates);
+//	drawOEMchart(primePrice, OEMrates);
 	//drawCommissionChart(primePrice);
 }
+
 
 function createChartValues(primePrice) {
 

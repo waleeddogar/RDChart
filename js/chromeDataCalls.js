@@ -1,15 +1,22 @@
-function Incentive (interest,to,from,disclosure,programDesc) {
+function IncentiveRate (interest,to,from,disclosure,programDesc) {
 			this.interest = interest;
 			this.to = to;
 			this.from = from;
 			this.disclosure = disclosure;
-			this.programDesc = programDesc;
+			//this.programDesc = programDesc;
+}
+
+function Incentive(programDesc, institutionName, incentiveRateList){
+	this.programDesc = programDesc;
+	this.institutionName = institutionName;
+	this.incentiveRateList = incentiveRateList;
 }
 
 function getIncentives(styleId, postalCode){
   var incentivesData = [];
-	var finalIncentiveData = [];
-  var data = [];
+	var incentivesArray = [];
+
+  //var data = [];
 	jQuery.ajax({
 			type: "POST",
 			async: false,
@@ -19,34 +26,40 @@ function getIncentives(styleId, postalCode){
 			 console.log(response);
 				var data = JSON.parse(response);
 
-
 				//console.log(data.model._);
 
 				for(i=0; i< data.incentives.length; i++){
+
+					var incentive = new Incentive();
 					if(data.incentives[i].categoryID == "101"){
+						incentive.programDesc = data.incentives[i].programDescription;
+						incentive.institutionName = data.incentives[i].institutionList[0];
+
 						for(j=0;j<data.incentives[i].programValues.valueVariationList.length ;j++){
 							for(k=0;k<data.incentives[i].programValues.valueVariationList[j].programValueList.length;k++){
 								for(l=0;l<data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList.length;l++){
-									var incentive = new Incentive();
-										incentive.interest =data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].value;
-										incentive.to = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].to;
-										incentive.from = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].from;
-										incentive.financialDisclosure = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].financialDisclosure;
-										incentive.programDesc = data.incentives[i].programDescription;
-										incentivesData.push(incentive);
+									var incentiveRate = new IncentiveRate();
+										incentiveRate.interest =data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].value;
+										incentiveRate.to = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].to;
+										incentiveRate.from = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].from;
+										incentiveRate.financialDisclosure = data.incentives[i].programValues.valueVariationList[j].programValueList[k].termList[l].financialDisclosure;
+										//incentive.programDesc = data.incentives[i].programDescription;
+										incentivesArray.push(incentiveRate);
 								}
 							}
 						}
-						finalIncentiveData.push(incentiveData);
-						incentiveData = [];
+						//incentivesData.push(incentivesArray);
+						incentive.incentiveRateList = incentivesData ;
+
 					}
+					incentivesData.push(incentive);
 				}
 			},
 			error: function (response){
 				console.log(response);
 			}
 		});
-		return finalIncentiveData;
+		return incentivesData;
 }
 
 function getMakes(value){

@@ -1,14 +1,24 @@
-.body{
+body{
 	margin-left:5px;
 	margin-right:5px;
-	width: 70%
+    width: auto;
 }
 .amount{
 	font-size:60px;
 	text-align: center;
 }
-#largebutton{
-	width: 50%;
+#submitbutton{
+	width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    display:block;
+}
+#editbutton{
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
 }
 #rates{
 	width:75%;
@@ -28,6 +38,15 @@
 	float:left;
 	width:25%;
 }
+#cashIncentivesTable, td{
+	border: 1px solid black !important;
+	border-collapse: collapse;
+	width:90%;
+	float:left;
+	vertical-align: 'middle';
+	margin-left: 5%;
+	margin-right: 5%;
+}
 #center{
 	text-align:center;
 }
@@ -36,6 +55,7 @@
 }
 #title{
 	text-align:center;
+    font-size: 50px;
 }
 .leftside{
 	width:75%;
@@ -54,4 +74,57 @@
 }
 #disappear{
 	width:auto;
+}
+.charts{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+@media screen and (max-width: 991px){
+    #halfscreen{
+        width: 40%;
+    }
+
+    #title{
+        font-size: 50px;
+    }
+    .charttitle{
+        font-size: 28px;
+    }
+    .charts{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 768px){
+    #halfscreen{
+        width: 60%;
+    }
+
+    #title{
+        font-size: 40px;
+    }
+    .charttitle{
+        font-size: 23px;
+    }
+    .charts{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 479px){
+    #halfscreen{
+        width: 90%;
+    }
+
+    #title{
+        font-size: 25px;
+    }
+    .charttitle{
+        font-size: 15px;
+    }
+    .charts{
+        width: 90%;
+    }
 }

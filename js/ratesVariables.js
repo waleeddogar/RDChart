@@ -74,7 +74,7 @@ function getRatesByPrice(primePrice) {
 
 	//addTo(selectedRates, OEM);
 
-	console.log(selectedRates.toString());
+	//console.log(selectedRates.toString());
 
 	return selectedRates;
 }

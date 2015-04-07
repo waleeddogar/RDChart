@@ -368,6 +368,7 @@ function calculateOEMrates(primePrice, oemRates, termLength) {
 	var monthlyOEMrates = [];
 	var monthlyOEMrate = [];
 
+<<<<<<< HEAD
 	for (var i=0; i<oemRates.length; i++){
 		for (var j=0; j<oemRates[i].incentiveRateList.length; j++){
 
@@ -376,12 +377,24 @@ function calculateOEMrates(primePrice, oemRates, termLength) {
 			monthlyOEMrate.push(xVal);
 			monthlyOEMrate.push(i);
 			monthlyOEMrate.push(Math.round(calcOemMonthlyRate(primePrice, oemRates[i].incentiveRateList[j].interest, oemRates[i].incentiveRateList[j].to)));
+=======
+	for (var j=0; j<oemRate.length; j++){}
+		for (var i=0; i<oemRates[j].length; i++){
+			monthlyOEMrate.push(i);
+			monthlyOEMrate.push(j);
+			monthlyOEMrate.push(Math.round(calcOemMonthlyRate(primePrice, oemRates[i].interest, oemRates[i].to)));
+			console.log("OEM RATE: " + oemRates[i].interest + " TOTAL COST: " + monthlyOEMrate[2]);
+			console.log("Prog Desc: " + oemRates[i].programDesc);
+>>>>>>> origin/master
 			monthlyOEMrates.push(monthlyOEMrate);
 			monthlyOEMrate = [];
 		}
 	}
+<<<<<<< HEAD
 
 	//printChart(monthlyOEMrates);
+=======
+>>>>>>> origin/master
 	return monthlyOEMrates;
 
 }

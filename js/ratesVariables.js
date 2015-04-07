@@ -74,7 +74,7 @@ function getRatesByPrice(primePrice) {
 
 	//addTo(selectedRates, OEM);
 
-	console.log(selectedRates.toString());
+	//console.log(selectedRates.toString());
 
 	return selectedRates;
 }
@@ -98,13 +98,13 @@ function calcOemMonthlyRate(prime, interest, terms) {
 	var monthlyAmount;
 
 	if (interest != 0){
-		console.log("SHIT IS NOT 0");
+		//console.log("SHIT IS NOT 0");
 		var modInterest = 0.01*interest/12;
 		monthlyAmount = (prime * modInterest) / (1 - Math.pow(1 + modInterest, -terms));
 
 	}
 	else {
-		console.log("SHIT IS 0");
+	//	console.log("SHIT IS 0");
 		monthlyAmount = prime/terms;
 
 	}

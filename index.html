@@ -8,13 +8,13 @@
     		<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     		<link rel="stylesheet" href="css/main.css">
     		<link rel="stylesheet" href="css/materialize.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-        <script>
+            <script>
 
-        $( document ).ready(function() {
-        	jQuery.ajax({
-        			type: "GET",
+                $( document ).ready(function() {
+        	       jQuery.ajax({
+                    type: "GET",
         			url: "php/getYears.php",
         			success: function(response){
         				console.log(response);
@@ -24,18 +24,21 @@
         							var option = $('<option />');
         							option.attr('value',years.modelYear[i] ).text(years.modelYear[i]);
         							$('#year').append(option);
-                    }
-        				}
-        			}
-        		});
-        });
-        </script>
+                                }
+                            }
+        			     }
+                    });
+                });
+        
+            </script>
+            
     	</head>
-    	<body >
+    
+    	<body>
 
     		<div id="disappear"><h1 id="title">Payments and Dealer Reserve App</h1></div>
     		<div id="disappear2">
-    			<div id="halfscreen">
+                <div id="halfscreen">
     				<label>Select a Year</label>
              		<select id="year" onchange="getMakes(this.value)">
                			<option value="">Select year</option>
@@ -52,39 +55,53 @@
                 <select id="trim" onchange="getBasePrice(this.value)">
                     <option value="">Select trim</option>
                 </select>
-				</div>
+                    </div>
 			</div>
 
     		<div id="center">
 
     			<div class="input-field">
-    				<input class="amount" type="number" id="primeCost" placeholder="Enter Amount Here">
+    				<input class="amount" type="number" id="primeCost" placeholder="Enter MSRP Amount Here">
     			</div>
-    			<button class="btn waves-effect waves-light" id="largebutton" onclick='showChart()'>Submit</button>
-				<div class="leftside">
-					<h5>Monthly Payments</h5>
+    			
+                <button class="btn waves-effect waves-light" id="submitbutton" onclick='showChart()'>Submit</button>
+                <button class="btn waves-effect blue-grey darken-3" id="editbutton" onclick='reload()'>Edit Car</button>
+			
+            </div>
+            <h4 id="selectedcar">Selected Car:</h4>
+    		<div class="charts">
+                
+                <div class="leftside">
+					<h5 class="charttitle">Monthly Payments</h5>
 				</div>
-				<div class="rightside">
-					<h5>Dealer Reserve</h5>
+			
+                <div class="rightside">
+					<h5 class="charttitle">Dealer Reserve</h5>
 				</div>
-			</div>
-
-    		<div>
+                
     			<div id="rates"></div>
     			<div id="commission"></div>
+                
     		</div>
 
-        <div>
-          <div id="rates1"></div>
-          <div id="commission1"></div>
-        </div>
+            <div class="charts leftside">
+                <div id="rates1"></div>            
+            </div>
+            
+            <div class="charts rightside">
+                <table id="cashIncentivesTable"></table>
+            </div>
 
+            <div class="modal"><!-- Place at bottom of page --></div>
+
+            
     		<script src="js/highcharts.js"></script>
-			  <script src="js/heatmap.js"></script>
-			  <script src="js/exporting.js"></script>
+            <script src="js/heatmap.js"></script>
+            <script src="js/exporting.js"></script>
     		<script src="js/main.js"></script>
-        <script src="js/chromeDataCalls.js"></script>
+            <script src="js/chromeDataCalls.js"></script>
     		<script src="js/ratesVariables.js"></script>
+            
     	</body>
-
+    
 </html>

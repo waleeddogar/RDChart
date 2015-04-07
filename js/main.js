@@ -1,21 +1,122 @@
+var globalOEM;
 
 function showChart(){
 
+    $(document).ready(function() {
+        $('#selectedcar').text($('#year').val());
+    });
+    
+	var primePrice = document.getElementById("primeCost").value;
+	document.getElementById("disappear2").style.display = 'none';
+    document.getElementById("editbutton").style.display = 'block';
+    document.getElementById("submitbutton").style.display = 'none';
+
+   $("#cashIncentivesTable tr").remove();
+  // var OEMrates = [];
+	var OEMrates = getIncentives($("#trim").val(), 'M1G3V4');
+	//var OEMrates = getIncentives("372238", 'M1G3V4');
+	globalOEM = OEMrates;
+
+
+	//console.log('OEMRATELENGTH - SHOWCHART: ' + OEMrates.length);
+
+	console.log("1st OEMRATES: " + OEMrates.length);
+	console.log("1st CASHRRATES: " +OEMrates[1].length);
+
+	//console.log("OEM RATE LENGTH" +incentiveData.length);
+	//drawChart(primePrice-1750);
+	drawChart(primePrice);
+	//drawOEMchart(primePrice-500, OEMrates);
+	drawOEMchart(primePrice, OEMrates);
+	//drawCommissionChart(primePrice);
+	drawCashIncentivesTable(OEMrates[1]);
+}
+
+function reload(){
+	document.getElementById("disappear2").style.display = 'block';
+    document.getElementById("editbutton").style.display = 'none';
+    document.getElementById("submitbutton").style.display = 'block';
+    document.getElementById("charts").style.display = 'none';
+
+}
+
+function createCheckBoxes(rbcValue, oemValue, cash){
+	checkbox = "<input type='checkbox' id='"+rbcValue + "' value=" + cash + " onclick='" + "onChangeCheck()" + "'>RBC"
+	+ "<input type='checkbox' id='"+oemValue + "' value=" + cash + " onclick='" + "onChangeCheck()" + "'>OEM";
+
+	console.log(checkbox);
+
+	return checkbox;
+}
+
+function drawCashIncentivesTable(cashIncentives){
+
+	var cashTable = document.getElementById("cashIncentivesTable");
+		var header = cashTable.createTHead();
+		var row = header.insertRow(0);
+
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
+
+		cell1.innerHTML = '<b> PROGRAM DESCRIPTION </b>';
+		cell2.innerHTML = '<b> CASH AMOUNT </b>';
+		cell3.innerHTML = "<b> APPLY TO </b>";
+		cell4.innerHTML = '<b> GROUP ELIGBILITY </b>';
+
+	for(var i=0; i<cashIncentives.length; i++){
+		var row = cashTable.insertRow(-1);
+
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
+
+		cell1.innerHTML = cashIncentives[i].programDesc;
+		cell2.innerHTML = cashIncentives[i].cashAmt;
+		cell3.innerHTML = createCheckBoxes('rbc'+i, 'oem'+i, cashIncentives[i].cashAmt);
+		cell4.innerHTML = cashIncentives[i].group;
+	}
+
+}
+
+function onChangeCheck(){
+
+	//Check checkbox to see how much discounts
+var rbcDiscount = 0;
+var oemDiscount = 0;
+//var tableLength = $("#cashIncentivesTable").rows.length;
+var tableLength = document.getElementById("cashIncentivesTable").rows.length;
+for(i=0;i<tableLength; i++){
+	var rbcChkBoxID = "#rbc" + i;
+	var oemChkBoxID = "#oem" + i;
+	// if(document.getElementById(rbcChkBoxID).checked){
+	// 	rbcDiscount = rbcDiscount +document.getElementById(rbcChkBoxID).value();
+	// }
+	// if(document.getElementById(oemChkBoxID).checked){
+	// 	oemDiscount = oemDiscount + document.getElementById(oemChkBoxID).value();
+	// }
+	if($(rbcChkBoxID).is(':checked')){
+		rbcDiscount = rbcDiscount +parseInt($(rbcChkBoxID).val(), 10);
+	}
+	if($(oemChkBoxID).is(':checked')){
+		oemDiscount = oemDiscount + parseInt($(oemChkBoxID).val(),10);
+	}
+
+}
+	redrawCharts(rbcDiscount, oemDiscount);
+}
+
+function redrawCharts(rbcDiscount, oemDiscount) {
 
 	var primePrice = document.getElementById("primeCost").value;
-	document.getElementById("disappear").style.display = 'none';
-	document.getElementById("disappear2").style.display = 'none';
 
-  var OEMrates = [];
-	console.log("1");
-	// var OEMrates = getIncentives($("#trim").val(), 'M1G3V4');
-	var OEMrates = getIncentives("369453", 'M1G3V4');
-	console.log("3");
-	console.log("OEM RATE LENGTH" +OEMrates.length);
-	drawChart(primePrice-1750);
-	drawOEMchart(primePrice-500, OEMrates);
-	//drawCommissionChart(primePrice);
+	drawChart(primePrice-rbcDiscount);
+	drawOEMchart(primePrice-oemDiscount, globalOEM);
+
 }
+
 
 function createChartValues(primePrice) {
 
@@ -63,7 +164,7 @@ function calculateSellerCommision(primePrice) {
 		dealerCommisionChart.push(dealerCommisionCell);
 		dealerCommisionCell = [];
 	}
-	printChart(dealerCommisionChart);
+	//printChart(dealerCommisionChart);
 	return dealerCommisionChart;
 
 }
@@ -79,7 +180,6 @@ function drawChart(primePrice) {
 
 	for (var i = selectedInterestSet.length - 1; i >= 0; i--) {
 		interestRates.push(selectedInterestSet[i][0].toString() + "%");
-
 	}
 //	console.log(interestRates.toString());
 	for (var i = 0; i < terms.length; i++) {
@@ -231,40 +331,88 @@ function drawChart(primePrice) {
 function printChart(chart) {
 	for (var j = 0; j < chart.length; j++) {
 		for (var i = 0; i < chart[j].length; i++) {
-		//	console.log(chart[j][i]);
+			console.log(chart[j][i]);
 		}
-		console.log('\n');
+		console.log('/n');
 	}
 }
 
+function calculateOEMtermLength(oemRates) {
+	termLength = [];
+	longestTermLength = 0;
+	longestIncentive = 0;
+
+	//oemRates.sort()
+
+	//console.log('OEMRATELENGTH - TERMLENGTH: ' + oemRates.length);
+	for(var i=0; i<oemRates.length; i++){
+		//console.log('OEMRATELENGTH - INCENTIVELENGTH: ' + oemRates[i].incentiveRateList.length);
+		for(var j=0; j<oemRates[i].incentiveRateList.length; j++){
+			var currentTermLength = oemRates[i].incentiveRateList[j].to;
+			//console.log('currentTermLength: ' + currentTermLength);
+			if ($.inArray(currentTermLength, termLength) == -1){
+				termLength.push(currentTermLength);
+			}
+		}
+	}
+
+	termLength.sort();
+	//console.log('termLength: ' + termLength);
+
+	return termLength;
+
+}
+
 // oemRates comes by [(interest, to, from, disclosure)*n]
-function calculateOEMrates(primePrice, oemRates) {
+function calculateOEMrates(primePrice, oemRates, termLength) {
 	var monthlyOEMrates = [];
 	var monthlyOEMrate = [];
 
 	for (var i=0; i<oemRates.length; i++){
-		monthlyOEMrate.push(i);
-		monthlyOEMrate.push(0);
-		monthlyOEMrate.push(Math.round(calcOemMonthlyRate(primePrice, oemRates[i].interest, oemRates[i].to)));
-		console.log("OEM RATE: " + oemRates[i].interest + " TOTAL COST: " + monthlyOEMrate[2]);
-		console.log("Prog Desc: " + oemRates[i].programDesc);
-		monthlyOEMrates.push(monthlyOEMrate);
-		monthlyOEMrate = [];
+		for (var j=0; j<oemRates[i].incentiveRateList.length; j++){
+
+			var xVal = $.inArray(oemRates[i].incentiveRateList[j].to, termLength);
+			//console.log('INARRAY for i,j-> ' + i + " J: " + j + ' TO: ' + oemRates[i].incentiveRateList[j].to +" VAL: " + xVal);
+			monthlyOEMrate.push(xVal);
+			monthlyOEMrate.push(i);
+			monthlyOEMrate.push(Math.round(calcOemMonthlyRate(primePrice, oemRates[i].incentiveRateList[j].interest, oemRates[i].incentiveRateList[j].to)));
+			monthlyOEMrates.push(monthlyOEMrate);
+			monthlyOEMrate = [];
+		}
 	}
 
+	//printChart(monthlyOEMrates);
 	return monthlyOEMrates;
 
 }
 
+function calculateOEMinterestLabel(oemRates){
+	var interestLabel = []
+
+	for(var i=0; i<oemRates.length; i++){
+		interestLabel.push(oemRates[i].programDesc);
+	}
+
+	return interestLabel;
+
+}
+
 function drawOEMchart(primePrice, oemRates) {
-	var data = calculateOEMrates(primePrice, oemRates);
- var rates = oemRates;
-	var xaxis = ['OEM RATES'];
+
+	console.log("OEMRATES: " + oemRates.length);
+	console.log("CASHRRATES: " +oemRates[1].length);
+	//drawCashIncentivesTable(oemRates[1]);
+
+  var rates = oemRates[0];
+	var interestLabels = [];
 	var termLength = [];
 
-	for (var i=0; i<oemRates.length; i++){
-		termLength.push(oemRates[i].to);
-	}
+	//console.log('OEMRATELENGTH - DRAWOEM: ' + oemRates.length);
+
+	termLength = calculateOEMtermLength(oemRates[0]);
+	interestLabels = calculateOEMinterestLabel(oemRates[0]);
+
+	var data = calculateOEMrates(primePrice, oemRates[0], termLength);
 
 	$('#rates1').highcharts(
 			{
@@ -284,7 +432,7 @@ function drawOEMchart(primePrice, oemRates) {
 				},
 
 				yAxis : {
-					categories : xaxis,
+					categories : interestLabels,
 					title: {
 						text: ' '
 					}
@@ -312,15 +460,17 @@ function drawOEMchart(primePrice, oemRates) {
 
 				tooltip : {
 					formatter : function() {
-						var programDesc = " ";
 						var rate = "";
 						for(i=0;i<rates.length;i++){
-							console.log("WHATS WRONG HERE "+rates[i].programDesc);
-								if(rates[i].to == this.series.xAxis.categories[this.point.x]){
-									console.log("THERE THERE: "+rates[i].programDesc);
-									programDesc = rates[i].programDesc;
-									rate = rates[i].interest;
+							//	console.log("WHATS WRONG HERE "+rates[i].programDesc);
+							if(rates[i].programDesc == this.series.yAxis.categories[this.point.y]){
+								for (var j=0; j<rates[i].incentiveRateList.length; j++){
+									if(rates[i].incentiveRateList[j].to == this.series.xAxis.categories[this.point.x]){
+											//console.log("THERE THERE: "+ rates[i].programDesc);
+											rate = rates[i].incentiveRateList[j].interest;
+									}
 								}
+							}
 						}
 						return '<b>'
 								+ this.series.xAxis.categories[this.point.x] + " Months"
@@ -328,7 +478,7 @@ function drawOEMchart(primePrice, oemRates) {
 								+ '</b>  <br><b>'
 								+ rate + "% Interest Rate"
 								+ '</b>  <br><b>'
-								+ "Program : " + programDesc
+								+ "Program : " + this.series.yAxis.categories[this.point.y]
 								+ '</b>';
 					}
 				},
